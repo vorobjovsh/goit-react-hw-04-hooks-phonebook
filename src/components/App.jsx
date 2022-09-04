@@ -4,7 +4,7 @@ import ContactList from "./ContactList/ContactList";
 import Filter from './Filter/Filter';
 import shortid from 'shortid';
 
-export const App = () => {
+const App = () => {
 
   const [contacts, setContacts] = useState([
     {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
@@ -77,4 +77,6 @@ export const App = () => {
        </div>
     );
 
-}
+};
+
+export default App
