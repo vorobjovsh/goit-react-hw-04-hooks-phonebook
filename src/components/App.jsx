@@ -4,7 +4,7 @@ import ContactList from "./ContactList/ContactList";
 import Filter from './Filter/Filter';
 import shortid from 'shortid';
 
-const App = () => {
+export const App = () => {
 
   const [contacts, setContacts] = useState([
     {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
@@ -16,17 +16,13 @@ const App = () => {
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
-    const contacts = localStorage.getItem('contacts');
-    const parsedContacts = JSON.parse(contacts);
+    const dataContacts = localStorage.getItem('contacts');
+    const parsedContacts = JSON.parse(dataContacts);
 
     if (parsedContacts) {
       setContacts(parsedContacts);
     }
   },[]);
-
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  },[contacts]);
 
   const addName = ({name, number}) => {
     const user = {
@@ -44,7 +40,9 @@ const App = () => {
         `${user.name} is already in contacts`
       );
     } else {
-      setContacts([user, ...contacts]);
+      const addContact = [user, ...contacts];
+      setContacts(addContact);
+      localStorage.setItem('contacts', JSON.stringify(addContact));
     }
   };
 
@@ -61,9 +59,9 @@ const App = () => {
   };
 
   const deleteContact = contactId => {
-    setContacts(prevState => {
-      prevState.contacts.filter(item => item.id !== contactId)
-    })
+    const beforeDelete = contacts.filter(item => item.id !== contactId);
+    setContacts(beforeDelete)
+    localStorage.setItem('contacts', JSON.stringify(beforeDelete));
   };
 
     return (
@@ -78,5 +76,3 @@ const App = () => {
     );
 
 };
-
-export default App
